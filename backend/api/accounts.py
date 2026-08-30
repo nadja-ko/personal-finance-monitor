@@ -14,7 +14,7 @@ def create_account(
     db: Session = Depends(get_db), # noqa: B008
 ) -> AccountDB:
     """
-    Function writes accounts information into database.
+    Create and write a new account into the database.
 
     Args:
         account (AccountCreate): Account information to be stored in the database.
@@ -45,7 +45,7 @@ def create_account(
 def get_accounts(db: Session = Depends(get_db), # noqa: B008
     ) -> list[AccountDB]:
     """
-    Function retrieves all accounts from the database.
+    Retrieve all accounts from the database.
 
     Args:
         db (Session, optional): Database session. Defaults to Depends(get_db).
