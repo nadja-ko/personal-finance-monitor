@@ -1,0 +1,17 @@
+from collections.abc import Generator
+
+from sqlalchemy.orm import Session
+
+from backend.database.connection import SessionLocal
+
+
+def get_db() -> Generator[Session]:
+    """
+    Function to get a database session.
+    """
+    db = SessionLocal()
+
+    try:
+        yield db
+    finally:
+        db.close()

@@ -21,4 +21,3 @@ class AccountDB(Base):
     bank: Mapped[str] = mapped_column(String(100))
     currency: Mapped[str] = mapped_column(String(3), default="EUR")
     account_type: Mapped[str] = mapped_column(String(50))
-    
