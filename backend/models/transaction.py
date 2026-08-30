@@ -17,8 +17,11 @@ class TransactionDB(Base):
     date: Mapped[date] = mapped_column(Date)
     description: Mapped[str | None] = mapped_column(String(255), nullable=True)
     type: Mapped[str] = mapped_column(String(20))
-    account_id: Mapped[int] = mapped_column(ForeignKey("accounts.id"))
-    category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
+    # nullable=False means transaction must belong to category and account
+    account_id: Mapped[int] = mapped_column(ForeignKey("accounts.id"), nullable=False)
+    category_id: Mapped[int] = mapped_column(
+        ForeignKey("categories.id"), nullable=False
+    )
 
 
 class Transaction(BaseModel):
