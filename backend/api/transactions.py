@@ -2,12 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from backend.database.session import get_db
-from backend.models.account import AccountDB
-from backend.models.category import CategoryDB
 from backend.models.transaction import TransactionDB
 from backend.schemas.transaction import (
     TransactionCreate,
     TransactionResponse,
+)
+from backend.services.transactions import (
+    create_transaction as create_transaction_service,
 )
 
 router = APIRouter(prefix="/transactions", tags=["transactions"])
@@ -25,43 +26,15 @@ def create_transaction(
         transaction (TransactionCreate): The transaction data to be created.
         db (Session): The database session dependency.
     Returns:
-        TransactionDB: The created transaction object from the database.
-    """
+        TransactionDB: The created transaction object from the database."""
 
-    # Check if the account exists in the database
-    account = db.get(AccountDB, transaction.account_id)
-
-    if account is None:
+    try:
+        return create_transaction_service(transaction, db)
+    except ValueError as error:
         raise HTTPException(
             status_code=404,
-            detail="Account not found",
-        )
-
-    # Check if the category exists in the database
-    category = db.get(CategoryDB, transaction.category_id)
-
-    if category is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Category not found",
-        )
-
-    # Create a new TransactionDB object and add it to the database
-    db_transaction = TransactionDB(
-        amount=transaction.amount,
-        currency=transaction.currency,
-        date=transaction.date,
-        description=transaction.description,
-        type=transaction.type,
-        account_id=transaction.account_id,
-        category_id=transaction.category_id,
-    )
-
-    db.add(db_transaction)
-    db.commit()
-    db.refresh(db_transaction)
-
-    return db_transaction
+            detail=str(error),
+        ) from error
 
 
 @router.get("/", response_model=list[TransactionResponse])
