@@ -1,12 +1,16 @@
+from datetime import date
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from backend.database.session import get_db
 from backend.models.transaction import TransactionDB
+from backend.schemas.summary import CashFlowSummary
 from backend.schemas.transaction import (
     TransactionCreate,
     TransactionResponse,
 )
+from backend.services.summary import get_cash_flow_summary
 from backend.services.transactions import (
     create_transaction as create_transaction_service,
 )
@@ -50,3 +54,26 @@ def get_transactions(
         list[TransactionDB]: A list of all transaction objects from the database.
     """
     return db.query(TransactionDB).all()
+
+
+@router.get("/summary", response_model=CashFlowSummary)
+def get_summary(
+    start_date: date,
+    end_date: date,
+    db: Session = Depends(get_db),  # noqa: B008
+) -> CashFlowSummary:
+    """
+    Retrieve a summary of cash flow between the specified start and end dates.
+
+    Args:
+        start_date (date): The start date for the summary.
+        end_date (date): The end date for the summary.
+        db (Session): The database session dependency.
+    Returns:
+        CashFlowSummary: A summary of cash flow between the specified dates.
+    """
+    return get_cash_flow_summary(
+        db=db,
+        start_date=start_date,
+        end_date=end_date,
+    )
