@@ -18,7 +18,7 @@ def create_transaction(
 ) -> TransactionDB:
     """
     Create a new transaction in the database.
-    
+
     Args:
         transaction (TransactionCreate): The transaction data to be created.
         db (Session): The database session dependency.
@@ -48,7 +48,7 @@ def get_transactions(
 ) -> list[TransactionDB]:
     """
     Retrieve all transactions from the database.
-    
+
     Args:
         db (Session): The database session dependency.
     Returns:

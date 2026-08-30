@@ -16,4 +16,3 @@ class TransactionCreate(BaseModel):
 
 class TransactionResponse(TransactionCreate):
     id: int
-    

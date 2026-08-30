@@ -20,6 +20,7 @@ class TransactionDB(Base):
     account_id: Mapped[int] = mapped_column(ForeignKey("accounts.id"))
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
 
+
 class Transaction(BaseModel):
     id: int
     amount: Decimal

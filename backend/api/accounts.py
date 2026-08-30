@@ -11,7 +11,7 @@ router = APIRouter(prefix="/accounts", tags=["accounts"])
 @router.post("/", response_model=AccountResponse)
 def create_account(
     account: AccountCreate,
-    db: Session = Depends(get_db), # noqa: B008
+    db: Session = Depends(get_db),  # noqa: B008
 ) -> AccountDB:
     """
     Create and write a new account into the database.
@@ -42,8 +42,9 @@ def create_account(
 
 
 @router.get("/", response_model=list[AccountResponse])
-def get_accounts(db: Session = Depends(get_db), # noqa: B008
-    ) -> list[AccountDB]:
+def get_accounts(
+    db: Session = Depends(get_db),  # noqa: B008
+) -> list[AccountDB]:
     """
     Retrieve all accounts from the database.
 

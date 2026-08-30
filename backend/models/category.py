@@ -10,6 +10,7 @@ class Category(BaseModel):
     name: str
     type: str
 
+
 class CategoryDB(Base):
     __tablename__ = "categories"
 
