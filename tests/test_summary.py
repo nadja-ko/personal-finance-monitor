@@ -25,6 +25,7 @@ def test_cash_flow_summary(db_session) -> None:
         CategoryDB(
             name="income",
             type=CashFlowType.INCOME,
+            parent_id=1
         )
     )
 
@@ -88,6 +89,7 @@ def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
         CategoryDB(
             name="income",
             type=CashFlowType.INCOME,
+            parent_id=1
         )
     )
 
@@ -95,6 +97,7 @@ def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
         CategoryDB(
             name="expenses",
             type=CashFlowType.EXPENSE,
+            parent_id=1
         )
     )
 

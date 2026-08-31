@@ -26,6 +26,7 @@ def create_category(
     db_category = CategoryDB(
         name=category.name,
         type=category.type,
+        parent_id=category.parent_id,
     )
 
     db.add(db_category)

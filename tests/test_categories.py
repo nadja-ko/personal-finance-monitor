@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 
+from backend.models.category import CategoryDB
 from backend.schemas.enums import CashFlowType
 
 
@@ -92,3 +93,32 @@ def test_create_category_rejects_invalid_type(client: TestClient) -> None:
     )
 
     assert response.status_code == 422
+
+
+def test_category_parent_child_relationship(db_session):
+    """ Test that a category can have a parent and child relationship. """
+
+    # parent category with parent_id set to None
+    food = CategoryDB(
+        name="food",
+        type=CashFlowType.EXPENSE,
+    )
+
+    db_session.add(food)
+    db_session.commit()
+    db_session.refresh(food)
+
+    # child category with parent_id set to the id of its parent `food`
+    groceries = CategoryDB(
+        name="groceries",
+        type=CashFlowType.EXPENSE,
+        parent_id=food.id,
+    )
+
+    db_session.add(groceries)
+    db_session.commit()
+    db_session.refresh(groceries)
+
+    assert groceries.parent == food
+    assert food.children == [groceries]
+    
