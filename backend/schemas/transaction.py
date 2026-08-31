@@ -3,7 +3,7 @@ from decimal import Decimal
 
 from pydantic import BaseModel, Field
 
-from backend.schemas.enums import TransactionType
+from backend.schemas.enums import CashFlowType
 
 
 class TransactionCreate(BaseModel):
@@ -13,7 +13,7 @@ class TransactionCreate(BaseModel):
     currency: str = "EUR"
     date: date
     description: str | None = None
-    type: TransactionType
+    type: CashFlowType
     account_id: int
     category_id: int
 

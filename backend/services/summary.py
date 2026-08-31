@@ -4,7 +4,7 @@ from decimal import Decimal
 from sqlalchemy.orm import Session
 
 from backend.models.transaction import TransactionDB
-from backend.schemas.enums import TransactionType
+from backend.schemas.enums import CashFlowType
 from backend.schemas.summary import CashFlowSummary
 
 
@@ -37,7 +37,7 @@ def get_cash_flow_summary(
         (
             transaction.amount
             for transaction in transactions
-            if transaction.type == TransactionType.INCOME
+            if transaction.type == CashFlowType.INCOME
         ),
         Decimal("0"),
     )
@@ -46,7 +46,7 @@ def get_cash_flow_summary(
         (
             transaction.amount
             for transaction in transactions
-            if transaction.type == TransactionType.EXPENSE
+            if transaction.type == CashFlowType.EXPENSE
         ),
         Decimal("0"),
     )

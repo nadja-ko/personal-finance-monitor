@@ -6,7 +6,7 @@ from fastapi.testclient import TestClient
 from backend.models.account import AccountDB
 from backend.models.category import CategoryDB
 from backend.models.transaction import TransactionDB
-from backend.schemas.enums import TransactionType
+from backend.schemas.enums import CashFlowType
 from backend.services.summary import get_cash_flow_summary
 
 
@@ -24,7 +24,7 @@ def test_cash_flow_summary(db_session) -> None:
     db_session.add(
         CategoryDB(
             name="income",
-            type="income",
+            type=CashFlowType.INCOME,
         )
     )
 
@@ -36,7 +36,7 @@ def test_cash_flow_summary(db_session) -> None:
             currency="EUR",
             date=date(2026, 8, 1),
             description="salary",
-            type=TransactionType.INCOME,
+            type=CashFlowType.INCOME,
             account_id=1,
             category_id=1,
         ),
@@ -45,7 +45,7 @@ def test_cash_flow_summary(db_session) -> None:
             currency="EUR",
             date=date(2026, 8, 5),
             description="groceries",
-            type=TransactionType.EXPENSE,
+            type=CashFlowType.EXPENSE,
             account_id=1,
             category_id=2,
         ),
@@ -54,7 +54,7 @@ def test_cash_flow_summary(db_session) -> None:
             currency="EUR",
             date=date(2026, 8, 10),
             description="Rent",
-            type=TransactionType.EXPENSE,
+            type=CashFlowType.EXPENSE,
             account_id=1,
             category_id=2,
         ),
@@ -87,14 +87,14 @@ def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
     db_session.add(
         CategoryDB(
             name="income",
-            type="income",
+            type=CashFlowType.INCOME,
         )
     )
 
     db_session.add(
         CategoryDB(
             name="expenses",
-            type="expense",
+            type=CashFlowType.EXPENSE,
         )
     )
 
@@ -106,7 +106,7 @@ def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
             currency="EUR",
             date=date(2026, 8, 1),
             description="salary",
-            type=TransactionType.INCOME,
+            type=CashFlowType.INCOME,
             account_id=1,
             category_id=1,
         ),
@@ -115,7 +115,7 @@ def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
             currency="EUR",
             date=date(2026, 8, 5),
             description="groceries",
-            type=TransactionType.EXPENSE,
+            type=CashFlowType.EXPENSE,
             account_id=1,
             category_id=2,
         ),
@@ -124,7 +124,7 @@ def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
             currency="EUR",
             date=date(2026, 8, 10),
             description="rent",
-            type=TransactionType.EXPENSE,
+            type=CashFlowType.EXPENSE,
             account_id=1,
             category_id=2,
         ),

@@ -1,7 +1,7 @@
 from enum import StrEnum
 
 
-class TransactionType(StrEnum):
+class CashFlowType(StrEnum):
     INCOME = "income"
     EXPENSE = "expense"
 

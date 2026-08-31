@@ -1,11 +1,11 @@
 from pydantic import BaseModel
 
-from backend.schemas.enums import TransactionType
+from backend.schemas.enums import CashFlowType
 
 
 class CategoryCreate(BaseModel):
     name: str
-    type: TransactionType
+    type: CashFlowType
 
 
 class CategoryResponse(CategoryCreate):

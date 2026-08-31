@@ -1,12 +1,15 @@
 from fastapi.testclient import TestClient
 
+from backend.schemas.enums import CashFlowType
+
 
 def test_create_category(client: TestClient) -> None:
+    """Test that a category can be created successfully."""
     response = client.post(
         "/categories/",
         json={
             "name": "salary",
-            "type": "income",
+            "type": CashFlowType.INCOME,
         },
     )
 
@@ -16,15 +19,16 @@ def test_create_category(client: TestClient) -> None:
 
     assert data["id"] == 1
     assert data["name"] == "salary"
-    assert data["type"] == "income"
+    assert data["type"] == CashFlowType.INCOME
 
 
 def test_create_expense_category(client: TestClient) -> None:
+    """Test that an expense category can be created successfully."""
     response = client.post(
         "/categories/",
         json={
             "name": "groceries",
-            "type": "expense",
+            "type": CashFlowType.EXPENSE,
         },
     )
 
@@ -34,7 +38,7 @@ def test_create_expense_category(client: TestClient) -> None:
 
     assert data["id"] == 1
     assert data["name"] == "groceries"
-    assert data["type"] == "expense"
+    assert data["type"] == CashFlowType.EXPENSE
 
 
 def test_get_categories(client: TestClient) -> None:
@@ -42,7 +46,7 @@ def test_get_categories(client: TestClient) -> None:
         "/categories/",
         json={
             "name": "salary",
-            "type": "income",
+            "type": CashFlowType.INCOME,
         },
     )
 
@@ -50,7 +54,7 @@ def test_get_categories(client: TestClient) -> None:
         "/categories/",
         json={
             "name": "groceries",
-            "type": "expense",
+            "type": CashFlowType.EXPENSE,
         },
     )
 
@@ -63,13 +67,14 @@ def test_get_categories(client: TestClient) -> None:
     assert len(data) == 2
 
     assert data[0]["name"] == "salary"
-    assert data[0]["type"] == "income"
+    assert data[0]["type"] == CashFlowType.INCOME
 
     assert data[1]["name"] == "groceries"
-    assert data[1]["type"] == "expense"
+    assert data[1]["type"] == CashFlowType.EXPENSE
 
 
 def test_get_categories_returns_empty_list(client: TestClient) -> None:
+    """Test that getting categories returns an empty list when no categories exist."""
     response = client.get("/categories/")
 
     assert response.status_code == 200
@@ -77,6 +82,7 @@ def test_get_categories_returns_empty_list(client: TestClient) -> None:
 
 
 def test_create_category_rejects_invalid_type(client: TestClient) -> None:
+    """Test that creating a category with an invalid type is rejected."""
     response = client.post(
         "/categories/",
         json={
