@@ -1,14 +1,7 @@
-from pydantic import BaseModel
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.database.connection import Base
-
-
-class Category(BaseModel):
-    id: int
-    name: str
-    type: str
 
 
 class CategoryDB(Base):

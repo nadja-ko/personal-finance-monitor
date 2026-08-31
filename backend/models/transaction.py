@@ -1,7 +1,6 @@
 from datetime import date
 from decimal import Decimal
 
-from pydantic import BaseModel
 from sqlalchemy import Date, ForeignKey, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -22,14 +21,3 @@ class TransactionDB(Base):
     category_id: Mapped[int] = mapped_column(
         ForeignKey("categories.id"), nullable=False
     )
-
-
-class Transaction(BaseModel):
-    id: int
-    amount: Decimal
-    currency: str = "EUR"
-    date: date
-    description: str | None = None
-    type: str
-    account_id: int
-    category_id: int

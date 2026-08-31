@@ -1,16 +1,7 @@
-from pydantic import BaseModel
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from backend.database.connection import Base
-
-
-class Account(BaseModel):
-    id: int
-    name: str
-    bank: str
-    currency: str = "EUR"
-    account_type: str
 
 
 class AccountDB(Base):
