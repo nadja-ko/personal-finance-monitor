@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from backend.database.session import get_db
@@ -46,4 +47,4 @@ def get_categories(
     Returns:
         list[CategoryDB]: A list of all category objects.
     """
-    return db.query(CategoryDB).all()
+    return list(db.scalars(select(CategoryDB)).all())

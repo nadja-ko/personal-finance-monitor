@@ -14,8 +14,8 @@ def test_cash_flow_summary(db_session) -> None:
 
     db_session.add(
         AccountDB(
-            name="Test account",
-            bank="Test bank",
+            name="test account",
+            bank="test bank",
             currency="EUR",
             account_type="checking",
         )
@@ -23,7 +23,7 @@ def test_cash_flow_summary(db_session) -> None:
 
     db_session.add(
         CategoryDB(
-            name="Income",
+            name="income",
             type="income",
         )
     )
@@ -35,7 +35,7 @@ def test_cash_flow_summary(db_session) -> None:
             amount=Decimal("2500.00"),
             currency="EUR",
             date=date(2026, 8, 1),
-            description="Salary",
+            description="salary",
             type=TransactionType.INCOME,
             account_id=1,
             category_id=1,
@@ -44,7 +44,7 @@ def test_cash_flow_summary(db_session) -> None:
             amount=Decimal("50.00"),
             currency="EUR",
             date=date(2026, 8, 5),
-            description="Groceries",
+            description="groceries",
             type=TransactionType.EXPENSE,
             account_id=1,
             category_id=2,
@@ -77,8 +77,8 @@ def test_cash_flow_summary(db_session) -> None:
 def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
     db_session.add(
         AccountDB(
-            name="Test account",
-            bank="Test bank",
+            name="test account",
+            bank="test bank",
             currency="EUR",
             account_type="checking",
         )
@@ -86,14 +86,14 @@ def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
 
     db_session.add(
         CategoryDB(
-            name="Income",
+            name="income",
             type="income",
         )
     )
 
     db_session.add(
         CategoryDB(
-            name="Expenses",
+            name="expenses",
             type="expense",
         )
     )
@@ -105,7 +105,7 @@ def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
             amount=Decimal("2500.00"),
             currency="EUR",
             date=date(2026, 8, 1),
-            description="Salary",
+            description="salary",
             type=TransactionType.INCOME,
             account_id=1,
             category_id=1,
@@ -114,7 +114,7 @@ def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
             amount=Decimal("50.00"),
             currency="EUR",
             date=date(2026, 8, 5),
-            description="Groceries",
+            description="groceries",
             type=TransactionType.EXPENSE,
             account_id=1,
             category_id=2,
@@ -123,7 +123,7 @@ def test_cash_flow_summary_api(client: TestClient, db_session) -> None:
             amount=Decimal("800.00"),
             currency="EUR",
             date=date(2026, 8, 10),
-            description="Rent",
+            description="rent",
             type=TransactionType.EXPENSE,
             account_id=1,
             category_id=2,
