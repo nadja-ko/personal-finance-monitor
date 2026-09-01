@@ -1,3 +1,5 @@
+from datetime import date
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
@@ -9,13 +11,13 @@ from backend.database.session import get_db
 from backend.main import app
 from backend.models.account import AccountDB
 from backend.models.category import CategoryDB
+from backend.models.trips import TripDB
 from backend.schemas.enums import CashFlowType
 
 
 @pytest.fixture
 def db_session() -> Session:
-    """
-    Create a new database session for testing.
+    """Create a new database session for testing.
 
     Every test uses an in-memory SQLite database that is
     created and destroyed for each test.
@@ -36,9 +38,7 @@ def db_session() -> Session:
 
 @pytest.fixture
 def client(db_session: Session) -> TestClient:
-    """
-    Create a FastAPI test client using the test database.
-    """
+    """Create a FastAPI test client using the test database."""
 
     def override_get_db():
         yield db_session
@@ -53,6 +53,8 @@ def client(db_session: Session) -> TestClient:
 
 @pytest.fixture
 def test_account(db_session: Session) -> AccountDB:
+    """Fixture to create a test account in the database."""
+
     account = AccountDB(
         name="test account",
         bank="test bank",
@@ -69,6 +71,8 @@ def test_account(db_session: Session) -> AccountDB:
 
 @pytest.fixture
 def test_category(db_session: Session) -> CategoryDB:
+    """Fixture to create a test category in the database."""
+
     category = CategoryDB(
         name="groceries",
         type=CashFlowType.EXPENSE,
@@ -79,3 +83,20 @@ def test_category(db_session: Session) -> CategoryDB:
     db_session.refresh(category)
 
     return category
+
+
+@pytest.fixture
+def test_trip(db_session: Session) -> TripDB:
+    """Fixture to create a test trip in the database."""
+
+    trip = TripDB(
+        name="Peru 2026",
+        start_date=date(2026, 9, 1),
+        end_date=date(2026, 10, 15),
+    )
+
+    db_session.add(trip)
+    db_session.commit()
+    db_session.refresh(trip)
+
+    return trip

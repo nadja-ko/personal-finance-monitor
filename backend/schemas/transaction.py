@@ -16,6 +16,7 @@ class TransactionCreate(BaseModel):
     type: CashFlowType
     account_id: int
     category_id: int
+    trip_id: int | None = None
 
 
 class TransactionResponse(TransactionCreate):

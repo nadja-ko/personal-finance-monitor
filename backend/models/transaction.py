@@ -7,10 +7,12 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from backend.database.connection import Base
 from backend.models.category import CategoryDB
+from backend.models.trips import TripDB
 
 if TYPE_CHECKING:
     from backend.models.account import AccountDB
     from backend.models.category import CategoryDB
+    from backend.models.trips import TripDB
 
 
 class TransactionDB(Base):
@@ -22,10 +24,19 @@ class TransactionDB(Base):
     date: Mapped[date_type] = mapped_column(Date)
     description: Mapped[str | None] = mapped_column(String(255), nullable=True)
     type: Mapped[str] = mapped_column(String(20))
+
     # nullable=False means transaction must belong to category and account
     account_id: Mapped[int] = mapped_column(ForeignKey("accounts.id"), nullable=False)
     category_id: Mapped[int] = mapped_column(
         ForeignKey("categories.id"), nullable=False
     )
+
+    # Relationships
     account: Mapped["AccountDB"] = relationship(back_populates="transactions")
     category: Mapped["CategoryDB"] = relationship(back_populates="transactions")
+
+    # Optional relationship to TripDB
+    trip_id: Mapped[int | None] = mapped_column(ForeignKey("trips.id"), nullable=True)
+    trip: Mapped["TripDB | None"] = relationship(
+        "TripDB", back_populates="transactions"
+    )

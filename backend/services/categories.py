@@ -1,0 +1,40 @@
+DEFAULT_CATEGORY_TREE = {
+    "income": {
+        "salary": [],
+        "others": ["allowance", "gifts", "freelance", "resale"],
+        "investments": ["interest", "etf dividends"],
+    },
+    "expense": {
+        "food": ["groceries", "eating out", "coffee"],
+        "transport": ["car", "public transport", "rideshare", "train", "bus", "flight"],
+        "entertainment": [
+            "movies",
+            "concerts",
+            "clubs",
+            "festivals",
+            "activities",
+            "sports",
+            "alcohol",
+            "cigarettes",
+        ],
+        "health": ["doctor visits", "medications"],
+        "personal": [
+            "clothing",
+            "electronics",
+            "home goods",
+            "toiletry",
+            "gifts",
+            "plants",
+            "books",
+        ],
+        "housing": [
+            "rent",
+            "accommodation",
+            "utilities",
+            "internet",
+            "subscriptions",
+            "insurance",
+        ],
+        "other": [],
+    },
+}

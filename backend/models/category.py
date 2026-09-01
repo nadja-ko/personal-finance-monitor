@@ -21,17 +21,19 @@ class CategoryDB(Base):
 
     # Defines the relationship with the TransactionDB model
     transactions: Mapped[list["TransactionDB"]] = relationship(
-        back_populates="category")
-
+        back_populates="category"
+    )
 
     # Self-referential hierarchy
-    parent_id: Mapped[int | None] = mapped_column(ForeignKey("categories.id"),
-                                                  nullable=True)
+    parent_id: Mapped[int | None] = mapped_column(
+        ForeignKey("categories.id"), nullable=True
+    )
 
     # remote_side shows that table points at itself
-    parent: Mapped["CategoryDB | None"] = relationship("CategoryDB",
-                                                       remote_side=[id], 
-                                                       back_populates="children")
+    parent: Mapped["CategoryDB | None"] = relationship(
+        "CategoryDB", remote_side=[id], back_populates="children"
+    )
 
-    children: Mapped[list["CategoryDB"]] = relationship("CategoryDB",
-                                                        back_populates="parent")
+    children: Mapped[list["CategoryDB"]] = relationship(
+        "CategoryDB", back_populates="parent"
+    )

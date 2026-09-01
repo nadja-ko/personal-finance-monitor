@@ -4,10 +4,12 @@ from backend.api.accounts import router as accounts_router
 from backend.api.categories import router as categories_router
 from backend.api.summary import router as summary_router
 from backend.api.transactions import router as transactions_router
+from backend.api.trips import router as trips_router
 from backend.database.connection import Base, engine
 from backend.models.account import AccountDB  # noqa: F401
 from backend.models.category import CategoryDB  # noqa: F401
 from backend.models.transaction import TransactionDB  # noqa: F401
+from backend.models.trips import TripDB  # noqa: F401
 
 Base.metadata.create_all(bind=engine)
 
@@ -17,6 +19,7 @@ app.include_router(accounts_router)
 app.include_router(transactions_router)
 app.include_router(categories_router)
 app.include_router(summary_router)
+app.include_router(trips_router)
 
 
 @app.get("/")

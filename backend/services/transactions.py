@@ -46,6 +46,7 @@ def create_transaction(
         type=transaction.type,
         account_id=transaction.account_id,
         category_id=transaction.category_id,
+        trip_id=transaction.trip_id,
     )
 
     db.add(db_transaction)

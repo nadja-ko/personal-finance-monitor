@@ -7,6 +7,7 @@ from pydantic import ValidationError
 from backend.models.account import AccountDB
 from backend.models.category import CategoryDB
 from backend.models.transaction import TransactionDB
+from backend.models.trips import TripDB
 from backend.schemas.enums import CashFlowType
 from backend.schemas.transaction import TransactionCreate
 
@@ -63,7 +64,7 @@ def test_valid_transaction() -> None:
 
 
 def test_transaction_relationships(
-    db_session, test_account: AccountDB, test_category: CategoryDB
+    db_session, test_account: AccountDB, test_category: CategoryDB, test_trip: TripDB
 ) -> None:
     """Tests that transactions are properly related to
     their associated accounts and categories."""
@@ -76,6 +77,7 @@ def test_transaction_relationships(
         type=CashFlowType.EXPENSE,
         account_id=test_account.id,
         category_id=test_category.id,
+        trip_id=test_trip.id,
     )
 
     db_session.add(transaction)
@@ -84,5 +86,8 @@ def test_transaction_relationships(
 
     assert transaction.account == test_account
     assert transaction.category == test_category
+    assert transaction.trip == test_trip
+
     assert test_account.transactions == [transaction]
     assert test_category.transactions == [transaction]
+    assert test_trip.transactions == [transaction]

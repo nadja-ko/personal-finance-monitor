@@ -96,7 +96,7 @@ def test_create_category_rejects_invalid_type(client: TestClient) -> None:
 
 
 def test_category_parent_child_relationship(db_session):
-    """ Test that a category can have a parent and child relationship. """
+    """Test that a category can have a parent and child relationship."""
 
     # parent category with parent_id set to None
     food = CategoryDB(
@@ -121,4 +121,3 @@ def test_category_parent_child_relationship(db_session):
 
     assert groceries.parent == food
     assert food.children == [groceries]
-    
