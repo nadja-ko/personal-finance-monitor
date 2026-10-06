@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from backend.database.session import get_db
@@ -37,3 +37,30 @@ def get_trips(
     Retrieve all trips from the database.
     """
     return db.query(TripDB).all()
+
+
+@router.delete("/{trip_id}")
+def delete_trip(
+    trip_id: int,
+    db: Session = Depends(get_db),  # noqa: B008
+) -> dict[str, str]:
+    """
+    Delete a trip while keeping its transactions.
+    """
+
+    trip = db.query(TripDB).filter(TripDB.id == trip_id).first()
+
+    if trip is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Trip not found",
+        )
+
+    for transaction in trip.transactions:
+        # explicitely sets trip id to None before deletion
+        transaction.trip_id = None
+
+    db.delete(trip)
+    db.commit()
+
+    return {"message": "Trip deleted successfully"}
